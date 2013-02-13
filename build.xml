@@ -1,33 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>  
-<project name="OFI" default="deploy" basedir="."> 
+<project name="OFI" default="main" basedir="."> 
     <taskdef name="ftpiugo" classname="FtpIugoTask" />
-
     <!-- directorio (local) del proyecto -->
     <property name="dir.public" value="../"/>
-
     <!-- fecha y hora que se ejecuta el build. Se usa luego para subir solo los modificados -->
     <tstamp>
-      <format property="builddate" pattern="%d/%m/%Y"  />
+      <format property="builddate" pattern="%m/%d/%Y"  />
       <format property="buildtime" pattern="%I:%M %p" />
     </tstamp>
-
     <!-- cargar fecha del ultimo build guardado en archivo -->
     <property file="lastbuild.properties" override="true"/>
 
-    <!-- FILESETS -->
+    <!-- MENU -->
+    <!-- obtener de la consola la accion -->
+    <target name="main" description="Menu de acciones">
+        <input propertyname="target_task" validargs="deploy,new">ACCION </input>
+        <phingcall target="${target_task}" />
+    </target>
+
+    <!-- AMBIENTE -->
+    <!-- seleccionar el ambiente -->
+    <target name="getEnvironment" description="Seleccionar un ambiente">
+        <input propertyname="environment" validargs="dev,test,prod">AMBIENTE </input>
+        <property file="${environment}.properties"/>
+    </target>
+  
+    <!-- DEPLOY  -->
+    <!-- deployar los archivos al ambiente especificado -->
+    <target name="deploy" depends="getEnvironment" description="Actualiza los archivos en el ambiente indicado">
+        <input propertyname="deploy.refid" validargs="application,library,public,todo">MODULO </input>
+        <property name="deploy.fileset.refid" value="file.${deploy.refid}" />
+
+        <ftpiugo host="${ftp.server}" port="${ftp.port}"   
+            username="${ftp.user}" password="${ftp.pass}"   
+            dir="${ftp.remotedir}">  
+            <fileset refid="${deploy.fileset.refid}"/>  
+        </ftpiugo>
+        <!-- guardar en el archivo la fecha del ultimo build: -->
+        <echo msg="lastbuilddate=${builddate} ${buildtime}" file="lastbuild.properties" append="false" />
+    </target>
+
     <!-- todos los archivos -->
     <fileset dir="${dir.public}" id="file.todo"> 
         <include name="**"/>
-        <exclude name="tmp/**"/>
+        <exclude name="tmp/cache/**"/>
+        <exclude name="tmp/log/**"/>
         <exclude name="@build/**"/>        
         <exclude name="@design/**"/>  
         <exclude name="@db/**"/>  
         <exclude name="@docs/**"/>
-        <exclude name="public/uploads/jugadores/**"/>
         <exclude name="public/fotos/**"/>
         <exclude name="public/importar/**"/>
         <exclude name="public/migracion/**"/>
-        <!-- Subir los que tienen fecha modificada posteriro a lastbuilddate -->
+        <exclude name="public/uploads/jugadores/**.jpg"/>
         <date datetime="${lastbuilddate}" when="after"/> 
     </fileset>
 
@@ -45,32 +70,34 @@
 
     <!-- solo los archivos de public -->
     <fileset dir="${dir.public}" id="file.public"> 
-        <include name="public/**"/>     
-        <exclude name="public/fotos/**"/>
-        <exclude name="public/importar/**"/>
-        <exclude name="public/migracion/**"/>
-        <exclude name="public/uploads/jugadores/**"/>
-        <date datetime="${lastbuilddate}" when="after"/> 
+        <include name="public/css/**"/>
+        <include name="public/img/**"/>
+        <include name="public/js/**"/>
+        <include name="public/uploads/**"/>
+        <exclude name="public/uploads/jugadores/**.jpg"/>
+        <date datetime="${lastbuilddate}" when="after"/>
     </fileset>
-  
-    <!-- obtener de la consola el ambiente (archivo de propiedades) -->  
-    <target name="getEnvironment" description="Ambiente de trabajo a subir">  
-       <input propertyname="environment"   
-           validargs="dev,test,prod">INGRESE EL NOMBRE DEL AMBIENTE </input>  
-       <property file="${environment}.properties"/>
-       <input propertyname="deploy.refid"   
-           validargs="application,library,public,todo">INGRESE EL MODULO </input>  
-       <property name="deploy.fileset.refid" value="file.${deploy.refid}" />
-    </target>
-  
-    <!-- deployar los archivos al ambiente especificado -->  
-    <target name="deploy" depends="getEnvironment" description="Actualiza los archivos en el ambiente indicado">
+
+    <!-- NEW -->
+    <!-- subir todo el sitio -->
+    <target name="new" depends="getEnvironment" description="Sube todo el sitio">
         <ftpiugo host="${ftp.server}" port="${ftp.port}"   
             username="${ftp.user}" password="${ftp.pass}"   
-            dir="${ftp.remotedir}">  
-            <fileset refid="${deploy.fileset.refid}"/>  
+            dir="${ftp.remotedir}">
+            <fileset dir="${dir.public}"> 
+                <include name="**"/>
+                <exclude name="tmp/cache/**"/>
+                <exclude name="tmp/log/**"/>
+                <exclude name="@build/**"/>
+                <exclude name="@design/**"/>
+                <exclude name="@db/**"/>
+                <exclude name="@docs/**"/>
+                <exclude name="public/fotos/**"/>
+                <exclude name="public/importar/**"/>
+                <exclude name="public/migracion/**"/>
+                <exclude name="public/uploads/jugadores/**.jpg"/>
+            </fileset>
         </ftpiugo>
-
         <!-- guardar en el archivo la fecha del ultimo build: -->
         <echo msg="lastbuilddate=${builddate} ${buildtime}" file="lastbuild.properties" append="false" />
     </target>
