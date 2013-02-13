@@ -19,7 +19,7 @@ Scripts para deployment usando [Phing] (http://www.phing.info/o "Phing website")
 <br>
 <img src="http://iugohosting.com/githubimg/avatares/nico.png" width="30" height="20">
 **Gonzalo Medeiros**<br>
-· Nicolas Manager<br>
+· Project Manager<br>
 · [nicolasiugo] (https://github.com/nicolasiugo "Github Profile") | [gonzalo@iugo.com.uy] (mailto:nicolas@iugo.com.uy "Mail")<br>
 
 <br>
