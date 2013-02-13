@@ -18,16 +18,14 @@ Scripts para deployment usando [Phing] (http://www.phing.info/o "Phing website")
 
 <br>
 <img src="http://iugohosting.com/githubimg/avatares/nico.png" width="30" height="20">
-**Gonzalo Medeiros**<br>
+**Nicolas Medeiros**<br>
 · Project Manager<br>
 · [nicolasiugo] (https://github.com/nicolasiugo "Github Profile") | [gonzalo@iugo.com.uy] (mailto:nicolas@iugo.com.uy "Mail")<br>
 
-<br>
 <img src="http://iugohosting.com/githubimg/avatares/gonza.png" width="30" height="20">
 **Gonzalo Medeiros**<br>
 · Project Manager<br>
 · [gmedeiros] (https://github.com/gmedeiros "Github Profile") | [gonzalo@iugo.com.uy] (mailto:gonzalo@iugo.com.uy "Mail")<br>
-
 
 <img src="http://iugohosting.com/githubimg/avatares/martin.png" width="30" height="20">
 **Martín Daguerre**<br>
