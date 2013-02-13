@@ -37,7 +37,7 @@ Scripts para deployment usando [Phing] (http://www.phing.info/o "Phing website")
 <img src="http://iugohosting.com/githubimg/avatares/andres.png" width="30" height="20"> 
 **Andrés Botta**<br>
 · Developer<br>
-· [gjabotta] (https://github.com/jabotta "Github Profile") | [andres@iugo.com.uy] (mailto:andres@iugo.com.uy "Mail")<br>
+· [jabotta] (https://github.com/jabotta "Github Profile") | [andres@iugo.com.uy] (mailto:andres@iugo.com.uy "Mail")<br>
 
 * * *
 <br>
