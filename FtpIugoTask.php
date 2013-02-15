@@ -166,6 +166,9 @@ class FtpIugoTask extends Task {
             }
         }
 
+        echo 'CONECTANDOSE AL SERVIDOR FTP
+';
+
         // append '/' to the end if necessary
         $dir = substr($this->dir, -1) == '/' ? $this->dir : $this->dir.'/';
         
